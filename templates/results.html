@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0 10vw;
+            background-color: #f8f9fa;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        h2 {
+            margin-top: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        img {
+            max-width: 150px;
+            margin-right: 20px;
+            float: left;
+        }
+        p {
+            margin: 10px 0;
+        }
+        ::marker {
+            font-size: xx-large;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Results for "{{ query }}"</h1>
+    <h2>Authors</h2>
+    <table>
+        <tr>
+            <th>Author</th>
+            <th>Count</th>
+            <th>Titles</th>
+        </tr>
+        {% for author, item in author_count.items() %}
+            <tr>
+                <td>{{ author }}</td>
+                <td>{{ item[0] }}</td>
+                <td>
+                    <ul>
+                        {% for title in item[1] %}
+                            <li>{{ title }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    
+    <ol>
+        {% for result in results %}  
+            <li>
+                <h2>{{ result.title|safe }}</h2>
+                <p>Author: {{ result.author }}</p>
+                <p>Score: {{ result.score }}</p>
+                <p>Query frequency:</p>
+                <ul>
+                    {% for word, freq in result.term_freq.items() %}
+                        <li>{{ word }}: {{ freq }}</li>
+                    {% endfor %}
+                </ul>
+                <p>{{ result.abstract|safe }}</p>
+            </li>
+        {% endfor %}
+    </ol>
+</body>
+</html>
