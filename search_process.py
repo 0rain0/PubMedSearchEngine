@@ -170,10 +170,11 @@ class CompressedInvertedIndex:
             space_usage += len(freq_list)
         return space_usage
 
-def search(search_query, k=10):
+def search(search_query,pubmedquery, k=10):
     query_list = search_query.split()
+    pubmedquery_list = pubmedquery.split()
     docs = []
-    for q in query_list:
+    for q in pubmedquery_list:
         docs.extend(get_articles(q))
     # docs.extend(get_articles(search_query[:search_query.find(" ")]))
     # docs.extend(get_articles(search_query[search_query.find(" ")+1:search_query.rfind(" ")]))
