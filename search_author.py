@@ -189,9 +189,11 @@ def search(search_query,pubmedquery, k=10):
     raw_docs = []
     raw_titles = []
     raw_authors = []
+    raw_abstracts = []
     for doc in docs:
         raw_titles.append(doc.title)
-        raw_docs.append(doc.abstract)
+        raw_docs.append(doc.author)
+        raw_abstracts.append(doc.abstract)
         raw_authors.append(doc.author)
 
     processed_docs = []
@@ -250,11 +252,11 @@ def search(search_query,pubmedquery, k=10):
             author_count[r["author"]][1].append(r["title"])
         else:
             author_count[r["author"]] = [1, [r["title"]]]
-        r["abstract"] = raw_docs[res[0]]
+        r["abstract"] = raw_abstracts[res[0]]
         
         for i in range(len(stemmed_query)):
-            r["abstract"] = r["abstract"].replace(stemmed_query[i].upper(), "<b><font color='red'>" + stemmed_query[i].upper() + "</font></b>", -1)
-            r["abstract"] = r["abstract"].replace(stemmed_query[i], "<b><font color='red'>" + stemmed_query[i] + "</font></b>", -1)
+            r["author"] = r["author"].replace(stemmed_query[i].upper(), "<b><font color='red'>" + stemmed_query[i].upper() + "</font></b>", -1)
+            r["author"] = r["author"].replace(stemmed_query[i], "<b><font color='red'>" + stemmed_query[i] + "</font></b>", -1)
             # r["title"] = r["title"].replace(stemmed_query[i], "<b><font color='red'>" + stemmed_query[i] + "</font></b> ", -1)
             # r["title"] = r["title"].replace(stemmed_query[i].upper(), "<b><font color='red'>" + stemmed_query[i].upper() + "</font></b> ", -1)
             # Markupsafe的Markup函數可以讓HTML tag不被escape
@@ -277,4 +279,3 @@ def search(search_query,pubmedquery, k=10):
         if counter == k:
             break
     return results, author_count
-
